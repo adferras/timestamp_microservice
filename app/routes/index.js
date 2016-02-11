@@ -1,57 +1,33 @@
 'use strict';
 
 var path = process.cwd();
-var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
 
-module.exports = function (app, passport) {
+module.exports = function (app) {
 
-	function isLoggedIn (req, res, next) {
-		if (req.isAuthenticated()) {
-			return next();
-		} else {
-			res.redirect('/login');
-		}
-	}
+    app.route('/:query')
+        .get(function(req, res) {
+            var monthNames = [
+              "January", "February", "March",
+              "April", "May", "June", "July",
+              "August", "September", "October",
+              "November", "December"
+            ];
+            var str = req.params.query;
+            var date = new Date(isNaN(str) ? str : parseInt(str, 10));
+            var unixTime = date.getTime()/1000;
+            if(isNaN(date)) {
+                naturalDate = null;
+            } else {
+            var naturalDate = monthNames[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
+            }
 
-	var clickHandler = new ClickHandler();
+            var dateObj = { 'unix': unixTime, 'natural': naturalDate };
 
-	app.route('/')
-		.get(isLoggedIn, function (req, res) {
-			res.sendFile(path + '/public/index.html');
-		});
+            res.send(JSON.stringify(dateObj));
+        });
 
-	app.route('/login')
-		.get(function (req, res) {
-			res.sendFile(path + '/public/login.html');
-		});
-
-	app.route('/logout')
-		.get(function (req, res) {
-			req.logout();
-			res.redirect('/login');
-		});
-
-	app.route('/profile')
-		.get(isLoggedIn, function (req, res) {
-			res.sendFile(path + '/public/profile.html');
-		});
-
-	app.route('/api/:id')
-		.get(isLoggedIn, function (req, res) {
-			res.json(req.user.github);
-		});
-
-	app.route('/auth/github')
-		.get(passport.authenticate('github'));
-
-	app.route('/auth/github/callback')
-		.get(passport.authenticate('github', {
-			successRedirect: '/',
-			failureRedirect: '/login'
-		}));
-
-	app.route('/api/:id/clicks')
-		.get(isLoggedIn, clickHandler.getClicks)
-		.post(isLoggedIn, clickHandler.addClick)
-		.delete(isLoggedIn, clickHandler.resetClicks);
+    app.route('/')
+        .get(function (req, res) {
+            res.sendFile(path + '/public/index.html');
+        });
 };
