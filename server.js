@@ -5,7 +5,7 @@ var routes = require('./app/routes/index.js');
 var session = require('express-session');
 var app = express();
 
-app.use('/public', express.static(process.cwd() + '/public'));
+app.use('/', express.static(process.cwd() + '/'));
 
 routes(app);
 
