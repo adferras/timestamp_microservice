@@ -1,11 +1,11 @@
 # Timestamp microservice
 
-This has been created as an assignment from [freecodecamp]("http://www.freecodecamp.com")
+This has been created as an assignment from [freecodecamp](http://www.freecodecamp.com)
 
 This app has been deployed to the following locations:
-[Github]('http://adferras.github.io/timestamp_microservice/')
-[Cloud 9]('https://timestamp-microservice-adferras.c9users.io')
-[Heroku]('http://timestamp-microservice-1690.herokuapp.com')
+[Github](http://adferras.github.io/timestamp_microservice/)
+[Cloud 9](https://timestamp-microservice-adferras.c9users.io)
+[Heroku](http://timestamp-microservice-1690.herokuapp.com)
 
 ## This app fulfills the following user stories:
 I can pass a string as a parameter, and it will check to see whether that string contains either a unix timestamp or a natural language date (example: January 1, 2016).
